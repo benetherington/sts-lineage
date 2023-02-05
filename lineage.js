@@ -6,7 +6,7 @@ const data = [
         id: 'Young',
         name: 'Young',
         symbolSize: 20,
-        fixed: true,
+        // fixed: true,
         x: myChart.getWidth() * (1 / 7),
         y: myChart.getHeight() / 5,
         label: {show: true},
@@ -15,7 +15,7 @@ const data = [
         id: 'Engle',
         name: 'Engle',
         symbolSize: 20,
-        fixed: true,
+        // fixed: true,
         x: myChart.getWidth() * (2 / 7),
         y: myChart.getHeight() / 5,
         label: {show: true},
@@ -24,7 +24,7 @@ const data = [
         id: 'Lousma',
         name: 'Lousma',
         symbolSize: 20,
-        fixed: true,
+        // fixed: true,
         x: myChart.getWidth() * (3 / 7),
         y: myChart.getHeight() / 5,
         label: {show: true},
@@ -33,7 +33,7 @@ const data = [
         id: 'Mattingly',
         name: 'Mattingly',
         symbolSize: 20,
-        fixed: true,
+        // fixed: true,
         x: myChart.getWidth() * (4 / 7),
         y: myChart.getHeight() / 5,
         label: {show: true},
@@ -42,7 +42,7 @@ const data = [
         id: 'Brand',
         name: 'Brand',
         symbolSize: 20,
-        fixed: true,
+        // fixed: true,
         x: myChart.getWidth() * (5 / 7),
         y: myChart.getHeight() / 5,
         label: {show: true},
@@ -51,7 +51,7 @@ const data = [
         id: 'Weitz',
         name: 'Weitz',
         symbolSize: 20,
-        fixed: true,
+        // fixed: true,
         x: myChart.getWidth() * (6 / 7),
         y: myChart.getHeight() / 5,
         label: {show: true},
@@ -157,15 +157,16 @@ const option = {
             links,
 
             type: 'graph',
-            layout: 'force',
+            layout: 'circular',
+            autoCurveness: true,
             roam: true,
             animation: false,
-            force: {
-                // initLayout: 'circular'
-                gravity: 1,
-                repulsion: 50,
-                edgeLength: 100,
-            },
+            // force: {
+            //     gravity: 0,
+            //     repulsion: 20,
+            //     edgeLength: 200,
+            //     layoutAnimation: false,
+            // },
         },
     ],
 };
@@ -179,18 +180,20 @@ const sharesFlight = (myMissions, resume) => {
     if (sharedFlight) return true;
 };
 
+// let y = 200;
 const addResume = ({name, flights}) => {
     //
     // Add person
     //
-    console.log(`Adding ${name}`);
+    // const x = Math.round(Math.random() * myChart.getWidth());
+    // y += 10;
     data.push({
         id: name,
         name,
         label: {show: true},
-        // x: myChart.getWidth() / 2,
-        // y: myChart.getHeight() / 2,
+        y: 400,
     });
+    console.log(`Adding ${name}`);
 
     //
     // Add links
@@ -238,7 +241,7 @@ const resumeTick = () => {
         resumeTick();
     } else {
         addResume(resume);
-        setTimeout(resumeTick, 500);
+        setTimeout(resumeTick, 1);
     }
 };
 
