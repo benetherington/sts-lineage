@@ -3,3 +3,4 @@ _build
 _scorm
 node_modules
 web_modules
+echarts*/**

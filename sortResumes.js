@@ -15,4 +15,8 @@ flights.forEach(({crew, ...rest}) => {
     });
 });
 
-fs.writeFileSync('resumes.json', JSON.stringify(resumes));
+const resumeList = Object.entries(resumes).map(([name, flights]) => {
+    return {name, flights};
+});
+
+fs.writeFileSync('resumes.json', JSON.stringify(resumeList));
