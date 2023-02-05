@@ -1,9 +1,8 @@
 const chartElement = document.getElementById('lineage-chart');
 const myChart = echarts.init(chartElement);
 
-const resumesToAdd = [...resumes];
-const progenitors = {
-    Young: {
+const data = [
+    {
         id: 'Young',
         name: 'Young',
         symbolSize: 20,
@@ -12,11 +11,31 @@ const progenitors = {
         y: myChart.getHeight() / 5,
         label: {show: true},
     },
+];
+const links = [
+    {source: 'Young', target: 'Crippen'},
+    {source: 'Young', target: 'Shaw'},
+    {source: 'Young', target: 'Garriott'},
+    {source: 'Young', target: 'Parker'},
+    {source: 'Young', target: 'Merbold'},
+    {source: 'Young', target: 'Lichtenberg'},
+];
+
+progenitors = {
+    Young: {
+        id: 'Young',
+        name: 'Young',
+        symbolSize: 20,
+        // fixed: true,
+        // x: myChart.getWidth() * (1 / 7),
+        // y: myChart.getHeight() / 5,
+        label: {show: true},
+    },
     Engle: {
         id: 'Engle',
         name: 'Engle',
         symbolSize: 20,
-        fixed: true,
+        // fixed: true,
         x: myChart.getWidth() * (2 / 7),
         y: myChart.getHeight() / 5,
         label: {show: true},
@@ -25,7 +44,7 @@ const progenitors = {
         id: 'Lousma',
         name: 'Lousma',
         symbolSize: 20,
-        fixed: true,
+        // fixed: true,
         x: myChart.getWidth() * (3 / 7),
         y: myChart.getHeight() / 5,
         label: {show: true},
@@ -34,7 +53,7 @@ const progenitors = {
         id: 'Mattingly',
         name: 'Mattingly',
         symbolSize: 20,
-        fixed: true,
+        // fixed: true,
         x: myChart.getWidth() * (4 / 7),
         y: myChart.getHeight() / 5,
         label: {show: true},
@@ -43,7 +62,7 @@ const progenitors = {
         id: 'Brand',
         name: 'Brand',
         symbolSize: 20,
-        fixed: true,
+        // fixed: true,
         x: myChart.getWidth() * (5 / 7),
         y: myChart.getHeight() / 5,
         label: {show: true},
@@ -52,7 +71,7 @@ const progenitors = {
         id: 'Weitz',
         name: 'Weitz',
         symbolSize: 20,
-        fixed: true,
+        // fixed: true,
         x: myChart.getWidth() * (6 / 7),
         y: myChart.getHeight() / 5,
         label: {show: true},
@@ -62,8 +81,8 @@ const progenitors = {
 const option = {
     series: [
         {
-            data: [],
-            links: [],
+            data,
+            links,
 
             type: 'graph',
             layout: 'force',
@@ -92,8 +111,17 @@ const addResume = ({name, flights}) => {
     //
     // Add person
     //
-    const datapoint = progenitors[name] ? progenitors[name] : {id: name, name};
-    option.series[0].data.push(datapoint);
+    console.log(`Adding ${name}`);
+    const datapoint = progenitors[name]
+        ? progenitors[name]
+        : {
+              id: name,
+              name,
+              label: {show: true},
+              x: myChart.getWidth() / 2,
+              y: myChart.getHeight() / 2,
+          };
+    data.push(datapoint);
 
     //
     // Add links
@@ -110,10 +138,19 @@ const addResume = ({name, flights}) => {
     const linkTargetIds = linkTargets.map((r) => r.name);
 
     // Create links between me and them
-    const newLinks = linkTargetIds.map((theirName) => [name, theirName]);
+    const newLinks = linkTargetIds
+        .map((theirName) => {
+            if (name === theirName) return;
+            const reverseExists = links.find(
+                (link) => link.source === theirName && link.target === name,
+            );
+            if (!reverseExists) return {source: name, target: theirName};
+        })
+        .filter((l) => l);
+    console.log(newLinks);
 
     // Add links
-    option.series[0].links.push(...newLinks);
+    links.push(...newLinks);
 
     //
     // Update chart
@@ -121,11 +158,12 @@ const addResume = ({name, flights}) => {
     myChart.setOption(option);
 };
 
-const resumeTick = () => {
-    let resume = resumesToAdd.shift();
+const resumesToAdd = [...resumes];
+resumesToAdd.shift();
 
-    addResume(resume);
+const resumeTick = () => {
+    addResume(resumesToAdd.shift());
     setTimeout(resumeTick, 500);
 };
 
-// resumeTick();
+resumeTick();
