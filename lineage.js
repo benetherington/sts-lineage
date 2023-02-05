@@ -11,6 +11,51 @@ const data = [
         y: myChart.getHeight() / 5,
         label: {show: true},
     },
+    {
+        id: 'Engle',
+        name: 'Engle',
+        symbolSize: 20,
+        fixed: true,
+        x: myChart.getWidth() * (2 / 7),
+        y: myChart.getHeight() / 5,
+        label: {show: true},
+    },
+    {
+        id: 'Lousma',
+        name: 'Lousma',
+        symbolSize: 20,
+        fixed: true,
+        x: myChart.getWidth() * (3 / 7),
+        y: myChart.getHeight() / 5,
+        label: {show: true},
+    },
+    {
+        id: 'Mattingly',
+        name: 'Mattingly',
+        symbolSize: 20,
+        fixed: true,
+        x: myChart.getWidth() * (4 / 7),
+        y: myChart.getHeight() / 5,
+        label: {show: true},
+    },
+    {
+        id: 'Brand',
+        name: 'Brand',
+        symbolSize: 20,
+        fixed: true,
+        x: myChart.getWidth() * (5 / 7),
+        y: myChart.getHeight() / 5,
+        label: {show: true},
+    },
+    {
+        id: 'Weitz',
+        name: 'Weitz',
+        symbolSize: 20,
+        fixed: true,
+        x: myChart.getWidth() * (6 / 7),
+        y: myChart.getHeight() / 5,
+        label: {show: true},
+    },
 ];
 const links = [
     {source: 'Young', target: 'Crippen'},
@@ -19,6 +64,33 @@ const links = [
     {source: 'Young', target: 'Parker'},
     {source: 'Young', target: 'Merbold'},
     {source: 'Young', target: 'Lichtenberg'},
+    {source: 'Engle', target: 'Truly'},
+    {source: 'Engle', target: 'van Hoften'},
+    {source: 'Engle', target: 'Covey'},
+    {source: 'Engle', target: 'Lounge'},
+    {source: 'Engle', target: 'W. Fisher'},
+    {source: 'Lousma', target: 'Fullerton'},
+    {source: 'Mattingly', target: 'Hartsfield'},
+    {source: 'Mattingly', target: 'Shriver'},
+    {source: 'Mattingly', target: 'Onizuka'},
+    {source: 'Mattingly', target: 'Buchli'},
+    {source: 'Mattingly', target: 'Payton MSE'},
+    {source: 'Brand', target: 'Overmyer'},
+    {source: 'Brand', target: 'J. Allen'},
+    {source: 'Brand', target: 'Lenoir'},
+    {source: 'Brand', target: 'Parker'},
+    {source: 'Brand', target: 'Gibson'},
+    {source: 'Brand', target: 'McCandless'},
+    {source: 'Brand', target: 'McNair'},
+    {source: 'Brand', target: 'Stewart'},
+    {source: 'Brand', target: 'Hoffman'},
+    {source: 'Brand', target: 'Lounge'},
+    {source: 'Brand', target: 'G. Gardner'},
+    {source: 'Brand', target: 'Durrance'},
+    {source: 'Brand', target: 'Parise'},
+    {source: 'Weitz', target: 'Bobko'},
+    {source: 'Weitz', target: 'Peterson'},
+    {source: 'Weitz', target: 'Musgrave'},
 ];
 
 progenitors = {
@@ -26,16 +98,16 @@ progenitors = {
         id: 'Young',
         name: 'Young',
         symbolSize: 20,
-        // fixed: true,
-        // x: myChart.getWidth() * (1 / 7),
-        // y: myChart.getHeight() / 5,
+        fixed: true,
+        x: myChart.getWidth() * (1 / 7),
+        y: myChart.getHeight() / 5,
         label: {show: true},
     },
     Engle: {
         id: 'Engle',
         name: 'Engle',
         symbolSize: 20,
-        // fixed: true,
+        fixed: true,
         x: myChart.getWidth() * (2 / 7),
         y: myChart.getHeight() / 5,
         label: {show: true},
@@ -44,7 +116,7 @@ progenitors = {
         id: 'Lousma',
         name: 'Lousma',
         symbolSize: 20,
-        // fixed: true,
+        fixed: true,
         x: myChart.getWidth() * (3 / 7),
         y: myChart.getHeight() / 5,
         label: {show: true},
@@ -53,7 +125,7 @@ progenitors = {
         id: 'Mattingly',
         name: 'Mattingly',
         symbolSize: 20,
-        // fixed: true,
+        fixed: true,
         x: myChart.getWidth() * (4 / 7),
         y: myChart.getHeight() / 5,
         label: {show: true},
@@ -62,7 +134,7 @@ progenitors = {
         id: 'Brand',
         name: 'Brand',
         symbolSize: 20,
-        // fixed: true,
+        fixed: true,
         x: myChart.getWidth() * (5 / 7),
         y: myChart.getHeight() / 5,
         label: {show: true},
@@ -71,7 +143,7 @@ progenitors = {
         id: 'Weitz',
         name: 'Weitz',
         symbolSize: 20,
-        // fixed: true,
+        fixed: true,
         x: myChart.getWidth() * (6 / 7),
         y: myChart.getHeight() / 5,
         label: {show: true},
@@ -90,9 +162,9 @@ const option = {
             animation: false,
             force: {
                 // initLayout: 'circular'
-                gravity: 0.3,
-                repulsion: 100,
-                edgeLength: 5,
+                gravity: 1,
+                repulsion: 50,
+                edgeLength: 100,
             },
         },
     ],
@@ -112,16 +184,13 @@ const addResume = ({name, flights}) => {
     // Add person
     //
     console.log(`Adding ${name}`);
-    const datapoint = progenitors[name]
-        ? progenitors[name]
-        : {
-              id: name,
-              name,
-              label: {show: true},
-              x: myChart.getWidth() / 2,
-              y: myChart.getHeight() / 2,
-          };
-    data.push(datapoint);
+    data.push({
+        id: name,
+        name,
+        label: {show: true},
+        // x: myChart.getWidth() / 2,
+        // y: myChart.getHeight() / 2,
+    });
 
     //
     // Add links
@@ -140,14 +209,16 @@ const addResume = ({name, flights}) => {
     // Create links between me and them
     const newLinks = linkTargetIds
         .map((theirName) => {
+            // Don't link to myself
             if (name === theirName) return;
+
+            // Don't add duplicate links
             const reverseExists = links.find(
                 (link) => link.source === theirName && link.target === name,
             );
             if (!reverseExists) return {source: name, target: theirName};
         })
         .filter((l) => l);
-    console.log(newLinks);
 
     // Add links
     links.push(...newLinks);
@@ -162,8 +233,13 @@ const resumesToAdd = [...resumes];
 resumesToAdd.shift();
 
 const resumeTick = () => {
-    addResume(resumesToAdd.shift());
-    setTimeout(resumeTick, 500);
+    const resume = resumesToAdd.shift();
+    if (progenitors[resume.name]) {
+        resumeTick();
+    } else {
+        addResume(resume);
+        setTimeout(resumeTick, 500);
+    }
 };
 
 resumeTick();
