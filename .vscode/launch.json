@@ -1,0 +1,35 @@
+{
+    // Use IntelliSense to learn about possible attributes.
+    // Hover to view descriptions of existing attributes.
+    // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "type": "node",
+            "request": "launch",
+            "name": "Node current file",
+            "skipFiles": ["<node_internals>/**"],
+            "program": "${file}"
+        },
+        {
+            "name": "Eleventy Server",
+            "type": "node",
+            "request": "launch",
+            "runtimeExecutable": "npx",
+            "runtimeArgs": ["@11ty/eleventy", "--serve"],
+            "port": 8080,
+            "skipFiles": ["<node_internals>/**"],
+            "console": "integratedTerminal"
+        },
+        {
+            "name": "Eleventy Watch",
+            "type": "node",
+            "request": "launch",
+            "runtimeExecutable": "npx",
+            "runtimeArgs": ["@11ty/eleventy", "--watch"],
+            "port": 8080,
+            "skipFiles": ["<node_internals>/**"],
+            "console": "integratedTerminal"
+        }
+    ]
+}
