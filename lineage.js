@@ -43,6 +43,30 @@ const linkDefaults = {
     lineStyle: {curveness: 0.2},
 };
 
+// myChart.on('mouseover', ({dataType, data: {id}}) => {
+//     if (dataType !== 'node') return;
+//     console.log(id);
+
+//     const outboundConnections = links.filter(({source}) => source === id);
+//     const inboundConnections = links.filter(({target}) => target === id);
+
+//     const outboundNames = outboundConnections.map(
+//         ({target}) => `${id}-${target}`,
+//     );
+//     const inboundNames = inboundConnections.map(
+//         ({source}) => `${source}-${id}`,
+//     );
+
+//     myChart.dispatchAction({
+//         type: 'highlight',
+//         name: [...outboundNames, ...inboundNames],
+//         seriesIndex: 0,
+//     });
+// });
+// myChart.on('mouseout', ({dataType, dataIndex}) => {
+//     if (dataType !== 'node') return;
+// });
+
 const buildDataPoint = (myResume) => ({
     id: myResume.name,
     name: myResume.name,
@@ -51,6 +75,7 @@ const buildDataPoint = (myResume) => ({
 });
 
 const buildLink = (myResume, theirResume) => ({
+    id: `${myResume.name}-${theirResume.name}`,
     source: myResume.name,
     target: theirResume.name,
     // label: {
