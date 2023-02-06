@@ -6,6 +6,7 @@ progenitors = ['Young', 'Engle', 'Lousma', 'Mattingly', 'Brand', 'Weitz'];
 const data = [];
 const links = [];
 const option = {
+    backgroundColor: '#333',
     series: [
         {
             data,
@@ -35,8 +36,11 @@ const option = {
         },
     ],
 };
+const progenitorDefautlts = {
+    symbolSize: 20,
+};
 const linkDefaults = {
-    curveness: 0.5,
+    lineStyle: {curveness: 0.2},
 };
 
 const buildDataPoint = (myResume) => ({
@@ -52,16 +56,33 @@ const buildLink = (myResume, theirResume) => ({
     // label: {
     //     formatter: getSharedFlights(myResume, theirResume).join(', '),
     // },
-    // ...linkDefaults,
+    ...linkDefaults,
 });
 
 // let y = 200;
 const addResume = (myResume) => {
-    // Add this person
+    let addl = {};
+
+    if (progenitors.includes(myResume.name)) {
+        addl = progenitorDefautlts;
+    }
+
+    let R = 255;
+    let G = 255;
+    let B = 255;
+    if (myResume.wasCDR) {
+        R = 128;
+    }
+    if (myResume.wasPLT) {
+        G = 128;
+    }
+
     data.push({
         id: myResume.name,
         name: myResume.name,
         label: {show: true},
+        itemStyle: {color: `rgb(${R},${G},${B})`},
+        ...addl,
     });
 
     // Create links
@@ -93,7 +114,7 @@ const resumeTick = () => {
 
     if (!wasCDR && !wasPLT) return resumeTick();
 
-    addResume(resume);
+    addResume({...resume, wasCDR, wasPLT});
     myChart.setOption(option);
     setTimeout(resumeTick, 1);
 };
